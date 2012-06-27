@@ -1,4 +1,8 @@
 div.head 
-  h2 = "#{@cur_track[:name]}"
-div.image id='album_image'
-  img.main_image src="#{@cur_track[:image]}"
+  h1 = "#{@cur_track[:name]}"
+a href="#{@cur_track[:url]}"  
+	div.image id='album_image'
+  		img.main_image src="#{@cur_track[:image]}"
+div.artis id='artis_info'
+  Song By:
+  =@cur_track[:artist]
