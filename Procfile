@@ -1,1 +1,1 @@
-web: bundle exec ruby syncme.rb -p 80
+web: bundle exec ruby syncme.rb -p $PORT
