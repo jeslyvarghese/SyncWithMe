@@ -1,0 +1,13 @@
+div.header id="banner"
+  h1 Sync With Me :: Spread Love ::
+div.body id="track"
+  div.panel id="panel"
+    div.top_bar id="top_bar"
+    	close
+  -unless @tracks_loved.empty?
+    -@tracks_loved.each_with_index do |track,index|
+      div.list id=index
+        div.album_art
+          img.album_image src="#{track[:icon]}"
+        div.track_name
+          =track[:name]        
