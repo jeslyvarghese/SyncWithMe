@@ -18,6 +18,7 @@ get '/' do
 		else
 			@user_token = params[:code]
 			session[:user_token] = @user_token
+			redirect '/'
 		end
 	else
 		@user_token = session[:user_token]
