@@ -63,7 +63,7 @@ class Facebook
    			   	&client_secret=#{$SECRET}
    			 	&code=#{code}"
 		url_return = Curl::Easy.http_get url
-		url_return = url_return.split('&')
+		url_return = url_return.body_str.split('&')
 		access_token=url_return[0].to_s
 		access_token.delete "access_token"
 	end
