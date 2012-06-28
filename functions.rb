@@ -67,14 +67,22 @@ class Facebook
 	end
 
 	def self.song(dedicate,access_token)
-		friend_tag = "@[#{dedicate[:friend_id]}:#{dedicate[:friend_name]}]"
 		fb_handle = FbGraph::User.me access_token
 		fb_handle.feed!(
-			:message => "Dedicated #{dedicate[:song]} by #{dedicate[:artist_name]} to #{friend_tag}",
+			:message => "Dedicated #{dedicate[:song]} by #{dedicate[:artist_name]} to #{dedicate[:friend_name]}",
 			:picture => dedicate[:image],
 			:link => dedicate[:song_url],
 			:name => dedicate[:song],
 			:description => 'Spread Love!'
+			)
+		friend = FbGraph::User.new dedicate[:friend_id]
+		friend.feed!(
+			:message => "I dedicated #{dedicate[:song]} by #{dedicate[:artist_name]} to you! <3",
+			:picture => dedicate[:image],
+			:link => dedicate[:song_url],
+			:name => dedicate[:song],
+			:description => 'Spread Love!',
+			:access_token => access_token
 			)
 	end
 end
