@@ -3,7 +3,7 @@ require 'slim'
 
 require_relative 'functions.rb'
 
-enable :session
+enable :sessions
 $APP_ID = "404110249640722"
 $REDIRECT_URI = "http://syncwithme.herokuapp.com/"
 $SCOPE = "publish_stream,read_friendlists,publish_checkins,publish_actions"
@@ -17,9 +17,7 @@ get '/' do
 			redirect facebook_uri
 		else
 			@user_token = params[:code]
-			session[:user_token] = @user_token
-			@user_token = session[:user_token]
-			session[:access_token] = Facebook.getAccessToken session[:user_token]
+			session[:access_token] = Facebook.getAccessToken @user_token
 			#main page here we list all musics
 			loved = LastFM.getLoved
 			@tracks_loved = LastFM.proper_data loved
@@ -28,13 +26,23 @@ get '/' do
 	end
 end
 
-post '/track' do
+get '/track' do
 	music_index = params[:track].to_i
 	tracks_loved = 	LastFM.proper_data LastFM.getLoved
 	@cur_track = tracks_loved[music_index]
-	access_token = Facebook.getAccessToken session[:user_token]
-	@friends = Facebook.getFriends access_token
+	@friends = Facebook.getFriends session[:access_token]
 	slim :tracks
+end
+
+get '/dedicate/' do
+	dedicate = Hash.new 
+	dedicate[:friend_name] = params[:name]
+	dedicate[:friend_id] = params[:id]
+	dedicate[:artist_name] = params[:artist]
+	dedicate[:song] = params[:track]
+	dedicate[:song_url] = params[:url]
+	dedicate[:image] = params[:image]
+	Facebook.song dedicate , session[:access_token]
 end
 
 

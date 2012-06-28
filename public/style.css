@@ -66,4 +66,21 @@
 		border-width: 1px;
 		z-index:250;
 	}
-
+.friends
+	{
+		position: relative;
+		left:0%;
+		top:0%;
+		overflow:scroll;
+		width:650px;
+		height:70px;
+	}
+.friend
+	{
+		cursor: pointer;
+		white-space: nowrap;
+		float: left;
+		padding:  1px;
+		margin-bottom: 1px;
+		margin-left: .5px;
+	}

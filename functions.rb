@@ -44,27 +44,37 @@ class Facebook
 	$APP_ID ="404110249640722"
 	$REDIRECT_URI = "http://syncwithme.herokuapp.com/"
 	$SECRET = "66ed6b8491b9e3ec4ae7545742038924"
+
 	def self.getFriends(access_token)
 		me = FbGraph::User.me access_token
-		friends = me.friend_lists
+		friends = me.friends
 		friends_clean = friends.map do |friend|
 			friend_detail = Hash.new 
-			friend_detail[:id] = friend.id
+			friend_detail[:id] = friend.raw_attributes[:id]
 			friend_detail[:name] = friend.name
-			friend_detail[:profile_pic] =  "http://graph.facebook.com/#{friend.id}/picture"
+			friend_detail[:profile_pic] =  "http://graph.facebook.com/#{friend_detail[:id]}/picture"
 			friend_detail
 		end
 	end
 
 	def self.getAccessToken(code)
-		url = "https://graph.facebook.com/oauth/access_token?
-    		   	client_id=#{$APP_ID}
-   			   	&redirect_uri=#{$REDIRECT_URI}
-   			   	&client_secret=#{$SECRET}
-   			 	&code=#{code}"
+		url = "https://graph.facebook.com/oauth/access_token?client_id=#{$APP_ID}&redirect_uri=#{$REDIRECT_URI}&client_secret=#{$SECRET}&code=#{code}"
 		url_return = Curl::Easy.http_get url
-		url_return = url_return.body_str.split('&')
-		access_token=url_return[0].to_s
-		access_token.delete "access_token"
+		url_return = url_return.body_str
+		access_token=url_return.split('&')[0].to_s
+		access_token.slice! "access_token="
+		access_token
+	end
+
+	def self.song(dedicate,access_token)
+		friend_tag = "@[#{dedicate[:friend_id]}:#{dedicate[:friend_name]}]"
+		fb_handle = FbGraph::User.me access_token
+		fb_handle.feed!(
+			:message => "Dedicated #{dedicate[:song]} by #{dedicate[:artist_name]} to #{friend_tag}",
+			:picture => dedicate[:image],
+			:link => dedicate[:song_url],
+			:name => dedicate[:song],
+			:description => 'Spread Love!'
+			)
 	end
 end

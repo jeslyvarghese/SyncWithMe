@@ -16,7 +16,7 @@ $(document).ready(function(){
 	function feedURL(song)
 		{
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "/track",
 				data: {track: song},
 				success: function(data){

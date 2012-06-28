@@ -3,10 +3,12 @@ div.head
 a href="#{@cur_track[:url]}"  
 	div.image id='album_image'
   		img.main_image src="#{@cur_track[:image]}"
-div.artist id='artis_info'
+div.artist id='artist_info'
   Song By:
   =@cur_track[:artist]
+div id="dedicate"
 div.friends id="fb_friends"
   -@friends.each do|friend|
     div.friend id="#{friend[:id]}"
-      img.profile_image srcd="#{friend[:profile_pic]}""
+      a href="/dedicate/?name=#{friend[:name]}&id=#{friend[:id]}&track=#{@cur_track[:name]}&artist=#{@cur_track[:artist]}&url=#{@cur_track[:url]}&image=#{@cur_track[:image]}"
+        img.profile_image src="#{friend[:profile_pic]}"
