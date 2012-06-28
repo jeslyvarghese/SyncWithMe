@@ -32,13 +32,10 @@ post '/track' do
 	music_index = params[:track].to_i
 	tracks_loved = 	LastFM.proper_data LastFM.getLoved
 	@cur_track = tracks_loved[music_index]
-	friends = Facebook.getFriends session[:user_token]
-	puts friends
+	access_token = Facebook.getAccessToken session[:user_token]
+	@friends = Facebook.getFriends access_token
 	slim :tracks
 end
 
-post '/track/dedicate'
-	
-end
 
 

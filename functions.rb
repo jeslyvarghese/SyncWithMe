@@ -41,8 +41,30 @@ class LastFM
 end
 
 class Facebook
+	$APP_ID ="404110249640722"
+	$REDIRECT_URI = "http://syncwithme.herokuapp.com/"
+	$SECRET = "66ed6b8491b9e3ec4ae7545742038924"
 	def self.getFriends(access_token)
 		me = FbGraph::User.me access_token
-		me.friend_lists
+		friends = me.friend_lists
+		friends_clean = friends.map do |friend|
+			friend_detail = Hash.new 
+			friend_detail[:id] = friend.id
+			friend_detail[:name] = friend.name
+			friend_detail[:profile_pic] =  "http://graph.facebook.com/#{friend.id}/picture"
+			friend_detail
+		end
+	end
+
+	def self.getAccessToken(code)
+		url = "https://graph.facebook.com/oauth/access_token?
+    		   	client_id=#{$APP_ID}
+   			   	&redirect_uri=#{$REDIRECT_URI}
+   			   	&client_secret=#{$SECRET}
+   			 	&code=#{code}"
+		url_return = Curl::Easy.http_get url
+		url_return = url_return.split('&')
+		access_token=url_return[0].to_s
+		access_token.delete "access_token"
 	end
 end
