@@ -73,11 +73,13 @@
 		top:0%;
 		overflow:scroll;
 		width:650px;
-		height:70px;
+		height:95px;
 	}
 .friend
 	{
 		cursor: pointer;
+		height: 75px;
+		width: 75px;
 		white-space: nowrap;
 		float: left;
 		padding:  1px;

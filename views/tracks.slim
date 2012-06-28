@@ -9,6 +9,8 @@ div.artist id='artist_info'
 div id="dedicate"
 div.friends id="fb_friends"
   -@friends.each do|friend|
+    
     div.friend id="#{friend[:id]}"
       a href="/dedicate/?name=#{friend[:name]}&id=#{friend[:id]}&track=#{@cur_track[:name]}&artist=#{@cur_track[:artist]}&url=#{@cur_track[:url]}&image=#{@cur_track[:image]}"
         img.profile_image src="#{friend[:profile_pic]}"
+      =friend[:name]
