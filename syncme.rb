@@ -20,20 +20,25 @@ get '/' do
 			session[:user_token] = @user_token
 		end
 	else
-		 @user_token = session[:user_token]
-	end
-
+		@user_token = session[:user_token]
 	#main page here we list all musics
-	loved = LastFM.getLoved
-	@tracks_loved = LastFM.proper_data loved
-	slim :index
+		loved = LastFM.getLoved
+		@tracks_loved = LastFM.proper_data loved
+		slim :index
+	end
 end
 
 post '/track' do
 	music_index = params[:track].to_i
 	tracks_loved = 	LastFM.proper_data LastFM.getLoved
 	@cur_track = tracks_loved[music_index]
+	friends = Facebook.getFriends session[:user_token]
+	puts friends
 	slim :tracks
+end
+
+post '/track/dedicate'
+	
 end
 
 

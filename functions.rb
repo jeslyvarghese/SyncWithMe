@@ -1,6 +1,9 @@
 #serves all the functionalities for syncme.
 require 'curl'
 require 'xmlsimple'
+require 'fb_graph'
+
+
 class LastFM
 	
 	$API_KEY = "bd3651487fe2899b128df40502008df8"
@@ -34,5 +37,12 @@ class LastFM
 			end
 			tracks_loved
 		end
+	end
+end
+
+class Facebook
+	def self.getFriends(access_token)
+		me = FbGraph::User.me access_token
+		me.friend_lists
 	end
 end
