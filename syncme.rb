@@ -43,6 +43,7 @@ get '/dedicate/' do
 	dedicate[:song_url] = params[:url]
 	dedicate[:image] = params[:image]
 	Facebook.song dedicate , session[:access_token]
+	redirect '/'
 end
 
 
