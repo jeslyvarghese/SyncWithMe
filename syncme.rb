@@ -18,14 +18,13 @@ get '/' do
 		else
 			@user_token = params[:code]
 			session[:user_token] = @user_token
-			redirect '/'
+			@user_token = session[:user_token]
+			session[:access_token] = Facebook.getAccessToken session[:user_token]
+			#main page here we list all musics
+			loved = LastFM.getLoved
+			@tracks_loved = LastFM.proper_data loved
+			slim :index
 		end
-	else
-		@user_token = session[:user_token]
-	#main page here we list all musics
-		loved = LastFM.getLoved
-		@tracks_loved = LastFM.proper_data loved
-		slim :index
 	end
 end
 
